@@ -82,68 +82,29 @@ const Home = () => {
   };
 
   return (
-    <div className="home min-h-screen">
-      <header className="color-white"></header>
-      <main>
-        <h1 className="text-7xl m-8">akuAdalahStima2</h1>
-        <section className="m-8">
-          <SearchBar onChange={setSearchTerm} />
-          <div className="space-x-4 mt-6">
-            <button
-              type="button"
-              onClick={handleBFSClick} // Use the new handler
-              className="text-lg px-6 py-3 rounded-2xl shadow-md bg-blue-600 text-white hover:bg-blue-700 transition duration-200"
-            >
-              BFS
-            </button>
-            <button
-              type="button"
-              onClick={handleDFSClick} // Use the new handler
-              className="text-lg px-6 py-3 rounded-2xl shadow-md bg-blue-600 text-white hover:bg-blue-700 transition duration-200"
-            >
-              DFS
-            </button>
-            <button
-              type="button"
-              onClick={handleTestClick}
-              className="text-lg px-6 py-3 rounded-2xl shadow-md bg-green-600 text-white hover:bg-green-700 transition duration-200"
-            >
-              Test
-            </button>
+    <div className="flex min-h-screen font-sans">
+      {/* Sidebar (1/6 lebar layar) */}
+      <aside className="w-1/6 bg-black bg-opacity-90 p-4 ">
+        <div className="m-3">
+          <h2 className="text-5xl font-bold my-8 text-white">
+            C A R I - R E S E P
+          </h2>
 
-            <button
-              type="button"
-              onClick={handleScrap}
-              className="text-lg px-6 py-3 rounded-2xl shadow-md bg-green-600 text-white hover:bg-green-700 transition duration-200"
+          <div className="mb-4 ">
+            <label
+              htmlFor="integerInput"
+              className="block mb-2 text-lg text-white"
             >
-              Scrap
-            </button>
+              Element :
+            </label>
+            <SearchBar onChange={setSearchTerm} />
           </div>
-        </section>
 
-        {/* New buttons */}
-        <section className="m-8">
-          <div className="space-x-4 mt-6">
-            <button
-              type="button"
-              onClick={handleMultipleRecipeClick}
-              className="text-lg px-6 py-3 rounded-2xl shadow-md bg-yellow-600 text-white hover:bg-yellow-700 transition duration-200"
+          <div className="mb-4">
+            <label
+              htmlFor="integerInput"
+              className="block mb-2 text-lg text-white"
             >
-              Multiple Recipe
-            </button>
-            <button
-              type="button"
-              onClick={handleShortestPathClick}
-              className="text-lg px-6 py-3 rounded-2xl shadow-md bg-orange-600 text-white hover:bg-orange-700 transition duration-200"
-            >
-              Shortest Path
-            </button>
-          </div>
-        </section>
-
-        <section className="m-8">
-          <div>
-            <label htmlFor="integerInput" className="block mb-2 text-lg">
               Multiple Recipe Count:
             </label>
             <input
@@ -151,25 +112,76 @@ const Home = () => {
               type="text"
               value={integerInput}
               onChange={handleIntegerChange}
-              className="border rounded-lg p-2 text-lg w-32"
+              className="w-full border rounded-lg p-2 text-lg"
               placeholder="Only integers"
             />
           </div>
-          <div className="mt-4">
-            <p className="text-lg">Current method: {methodType || "None"}</p>{" "}
-            {/* Display current method */}
+
+          <div className="space-y-3 mb-4">
+            <button
+              type="button"
+              onClick={handleBFSClick}
+              className="w-full text-lg px-4 py-2 rounded-xl shadow bg-blue-600 text-white hover:bg-blue-700 transition"
+            >
+              BFS
+            </button>
+            <button
+              type="button"
+              onClick={handleDFSClick}
+              className="w-full text-lg px-4 py-2 rounded-xl shadow bg-blue-600 text-white hover:bg-blue-700 transition"
+            >
+              DFS
+            </button>
+            <button
+              type="button"
+              onClick={handleScrap}
+              className="w-full text-lg px-4 py-2 rounded-xl shadow bg-green-600 text-white hover:bg-green-700 transition"
+            >
+              Scrap
+            </button>
+            <button
+              type="button"
+              onClick={handleTestClick}
+              className="w-full text-lg px-4 py-2 rounded-xl shadow bg-green-600 text-white hover:bg-green-700 transition"
+            >
+              Test
+            </button>
+            <button
+              className="w-full text-left hover:bg-zinc-800 p-2 rounded flex items-center"
+              onclick="uploadFile('humming-audio')"
+            >
+              <span className="text-white text-3xl">test</span>
+            </button>
           </div>
+
+          <div className="space-x-4 mb-6">
+            <button
+              type="button"
+              onClick={handleMultipleRecipeClick}
+              className="text-lg px-6 py-3 rounded-2xl shadow-md bg-yellow-600 text-white hover:bg-yellow-700 transition duration-200"
+            >
+              Multiple Recipe
+            </button>
+          </div>
+
+          <div className="mb-4">
+            <p className="text-lg">Current method: {methodType || "None"}</p>
+          </div>
+        </div>
+      </aside>
+
+      {/* Main Screen (5/6 lebar layar) */}
+      <main className="w-5/6  bg-black bg-opacity-85">
+        <div className="p-4">
+          {" "}
           {treeData ? (
             <>
               <Tree data={treeData} />
-              <div className="mt-4 bg-gray-100 p-4 rounded-lg text-sm text-gray-800 max-h-[400px] overflow-auto">
-                <h2 className="font-bold mb-2">Debug: Converted Tree Data</h2>
-              </div>
             </>
           ) : (
             <p className="text-gray-500">No tree data loaded</p>
           )}
-        </section>
+        </div>
       </main>
     </div>
   );

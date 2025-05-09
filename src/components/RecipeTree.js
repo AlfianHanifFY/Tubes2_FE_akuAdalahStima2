@@ -61,20 +61,24 @@ const renderCustomNode = ({ nodeDatum }) => (
 // Komponen RecipeTree sekarang menerima props `data`
 const RecipeTree = ({ data }) => {
   return (
-    <div style={containerStyles}>
+    <div
+      style={containerStyles}
+      className="bg-black bg-opacity-0 rounded-xl h-screen"
+    >
       <Tree
         data={data}
         orientation="vertical"
         renderCustomNodeElement={renderCustomNode}
         pathFunc="straight"
-        zoomable={false} // Nonaktifkan zoom
-        draggable={true} // Aktifkan dragging agar tree bisa digeser
-        translate={{ x: 200, y: 40 }} // Posisi awal tree
-        scaleExtent={{ min: 0.5, max: 2 }} // Opsi zoom (opsional)
+        zoomable={false}
+        draggable={true}
+        translate={{ x: 200, y: 40 }}
+        scaleExtent={{ min: 0.5, max: 2 }}
         separation={{
-          siblings: 2.3, // Jarak antar node pada level yang sama
-          nonSiblings: 2, // Jarak antar node pada level berbeda
+          siblings: 2.3,
+          nonSiblings: 2,
         }}
+        pathClassFunc={() => "custom-path"} // Gunakan kelas CSS
       />
     </div>
   );
