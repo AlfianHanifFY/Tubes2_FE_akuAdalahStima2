@@ -38,12 +38,12 @@ export const convertToTree = (data) => {
 const renderCustomNode = ({ nodeDatum }) => (
   <g style={nodeStyles}>
     <rect
-      width="100" // Ukuran node yang lebih besar
-      height="100"
-      x="-50" // Menggeser posisi node
-      y="-50" // Menggeser posisi node
-      fill="#69b3a2"
-      rx="10" // Membulatkan sudut
+      width="200" // Ukuran node yang lebih besar
+      height="120"
+      x="-100" // Menggeser posisi node
+      y="-60" // Menggeser posisi node
+      fill="#ffffff" // Warna putih
+      rx="15" // Membulatkan sudut
     />
     <text
       fill="black"
@@ -71,6 +71,10 @@ const RecipeTree = ({ data }) => {
         draggable={true} // Aktifkan dragging agar tree bisa digeser
         translate={{ x: 200, y: 40 }} // Posisi awal tree
         scaleExtent={{ min: 0.5, max: 2 }} // Opsi zoom (opsional)
+        separation={{
+          siblings: 2.3, // Jarak antar node pada level yang sama
+          nonSiblings: 2, // Jarak antar node pada level berbeda
+        }}
       />
     </div>
   );
