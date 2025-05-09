@@ -57,8 +57,23 @@ const Home = () => {
   };
 
   // Handle MultipleRecipe button click
-  const handleMultipleRecipeClick = () => {
-    alert("Multiple Recipe clicked");
+  const handleMultipleRecipeClick = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:8080/MultipleRecipe?element=${encodeURIComponent(
+          searchTerm
+        )}&count=${encodeURIComponent(integerInput)}`
+      );
+      if (!res.ok) throw new Error("Request failed");
+      console.debug("Fetch status:", res.status);
+
+      const data = await res.json();
+      const tree = convertToTree(data[0]);
+      console.debug("Converted tree data:", tree); // <-- Debug log
+      setTreeData(tree);
+    } catch (err) {
+      console.error("Error fetching tree data:", err);
+    }
   };
 
   // Handle ShortestPath button click
