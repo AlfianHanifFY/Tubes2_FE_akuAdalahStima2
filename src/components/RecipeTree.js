@@ -38,12 +38,12 @@ export const convertToTree = (data) => {
 const renderCustomNode = ({ nodeDatum }) => (
   <g style={nodeStyles}>
     <rect
-      width="200" // Ukuran node yang lebih besar
-      height="120"
-      x="-100" // Menggeser posisi node
-      y="-60" // Menggeser posisi node
+      width="120" // Ukuran node yang lebih kecil
+      height="80" // Ukuran node yang lebih kecil
+      x="-60" // Menggeser posisi node
+      y="-40" // Menggeser posisi node
       fill="#ffffff" // Warna putih
-      rx="15" // Membulatkan sudut
+      rx="10" // Membulatkan sudut
     />
     <text
       fill="black"
@@ -51,7 +51,7 @@ const renderCustomNode = ({ nodeDatum }) => (
       x="0"
       y="10"
       textAnchor="middle"
-      fontSize="16" // Ukuran font lebih besar
+      fontSize="15" // Ukuran font lebih kecil
     >
       {nodeDatum.name}
     </text>
@@ -70,13 +70,13 @@ const RecipeTree = ({ data }) => {
         orientation="vertical"
         renderCustomNodeElement={renderCustomNode}
         pathFunc="straight"
-        zoomable={false}
+        zoomable={true} // Aktifkan zoom untuk memudahkan melihat tree
         draggable={true}
-        translate={{ x: 200, y: 40 }}
-        scaleExtent={{ min: 0.5, max: 2 }}
+        translate={{ x: 200, y: 40 }} // Posisi tree lebih terpusat
+        scaleExtent={{ min: 0.4, max: 1 }} // Zoom out lebih jauh
         separation={{
-          siblings: 2.3,
-          nonSiblings: 2,
+          siblings: 1.5, // Jarak antar node pada level yang sama lebih rapat
+          nonSiblings: 1.5, // Jarak antar node pada level berbeda lebih rapat
         }}
         pathClassFunc={() => "custom-path"} // Gunakan kelas CSS
       />
