@@ -6,6 +6,7 @@ import { convertToTree } from "../components/RecipeTree";
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [treeData, setTreeData] = useState(null);
+  const [fullTreeData, setFullTreeData] = useState("");
   const [integerInput, setIntegerInput] = useState("");
   const [methodType, setMethodType] = useState("");
   const [countTree, setCountTree] = useState("");
@@ -52,8 +53,9 @@ const Home = () => {
 
       const data = await res.json();
       setCountTree(data.length);
+      setFullTreeData(data);
 
-      const tree = convertToTree(data[currentTree]);
+      const tree = convertToTree(data[0]);
       console.debug("Converted tree data:", tree); // <-- Debug log
       setTreeData(tree);
     } catch (err) {
@@ -76,6 +78,7 @@ const Home = () => {
       const data = await res.json();
       console.debug("Raw response data:", data);
       setCountTree(data.length);
+      setFullTreeData(data);
 
       const tree = convertToTree(data[0]);
       console.debug("Converted tree data:", tree); // <-- Debug log
@@ -95,19 +98,12 @@ const Home = () => {
 
   useEffect(() => {
     if (methodType && countTree > 0) {
-      fetch(
-        `http://localhost:8080/${methodType}?element=${encodeURIComponent(
-          searchTerm
-        )}&count=${encodeURIComponent(integerInput)}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          const tree = convertToTree(data[currentTree]);
-          setTreeData(tree);
-        })
-        .catch((err) =>
-          console.error("Error updating tree on navigation:", err)
-        );
+      try {
+        const tree = convertToTree(fullTreeData[currentTree]);
+        setTreeData(tree);
+      } catch (error) {
+        console.error("Error fetching tree data:", err);
+      }
     }
   }, [currentTree]);
 
