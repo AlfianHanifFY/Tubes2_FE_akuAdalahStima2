@@ -57,22 +57,25 @@ const Home = () => {
   };
 
   // Handle MultipleRecipe button click
-  const handleMultipleRecipeClick = async () => {
+const handleMultipleRecipeClick = async () => {
+    const endpoint =
+      methodType === "bfs" ? "MultipleRecipeBFS" : "MultipleRecipe";
+
     try {
       const res = await fetch(
-        `http://localhost:8080/MultipleRecipe?element=${encodeURIComponent(
+        `http://localhost:8080/${endpoint}?element=${encodeURIComponent(
           searchTerm
         )}&count=${encodeURIComponent(integerInput)}`
       );
       if (!res.ok) throw new Error("Request failed");
-      console.debug("Fetch status:", res.status);
+      console.debug(`Fetch status (${methodType.toUpperCase()}):`, res.status);
 
       const data = await res.json();
       const tree = convertToTree(data[0]);
-      console.debug("Converted tree data:", tree); // <-- Debug log
+      console.debug(`Converted tree data (${methodType.toUpperCase()}):`, tree);
       setTreeData(tree);
     } catch (err) {
-      console.error("Error fetching tree data:", err);
+      console.error(`Error fetching tree data (${methodType.toUpperCase()}):`, err);
     }
   };
 
