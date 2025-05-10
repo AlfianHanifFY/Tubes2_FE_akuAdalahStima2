@@ -11,16 +11,20 @@ const Home = () => {
   const [countTree, setCountTree] = useState("");
   const [currentTree, setCurrentTree] = useState(0);
 
-  const handleScrap = async () => {
-    alert("data scrapped");
-    try {
-      const res = await fetch(`http://localhost:8080/scrap`);
-      if (!res.ok) throw new Error("Request failed");
-      console.debug("Fetch status:", res.status);
-    } catch (err) {
-      console.error("Error fetching tree data:", err);
-    }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      alert("data scrapped");
+      try {
+        const res = await fetch(`http://localhost:8080/Scrap`);
+        if (!res.ok) throw new Error("Request failed");
+        console.debug("Fetch status:", res.status);
+      } catch (err) {
+        console.error("Error fetching tree data:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleIntegerChange = (event) => {
     const value = event.target.value;
@@ -44,7 +48,7 @@ const Home = () => {
         )}&count=${encodeURIComponent(integerInput)}`
       );
       if (!res.ok) throw new Error("Request failed");
-      console.debug(`Fetch status (${methodType.toUpperCase()}):`, res.status);
+      console.debug("Fetch status:", res.status);
 
       const data = await res.json();
       setCountTree(data.length);
@@ -74,13 +78,10 @@ const Home = () => {
       setCountTree(data.length);
 
       const tree = convertToTree(data[0]);
-      console.debug(`Converted tree data (${methodType.toUpperCase()}):`, tree);
+      console.debug("Converted tree data:", tree); // <-- Debug log
       setTreeData(tree);
     } catch (err) {
-      console.error(
-        `Error fetching tree data (${methodType.toUpperCase()}):`,
-        err
-      );
+      console.error("Error fetching tree data:", err);
     }
   };
 
