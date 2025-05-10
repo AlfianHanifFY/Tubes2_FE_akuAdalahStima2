@@ -183,7 +183,7 @@ const Home = () => {
             <p className="text-lg text-white">
               Current Method: {methodType || " - "}
             </p>
-            <p className="text-lg text-white">Time Execution:</p>
+            <p className="text-lg text-white">Execution Time:</p>
             <p className="text-lg text-white">
               Tree Count: {countTree || " - "}
             </p>
