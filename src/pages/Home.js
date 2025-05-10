@@ -187,7 +187,7 @@ const Home = () => {
             <p className="text-lg text-white">
               Tree Count: {countTree || " - "}
             </p>
-            <p className="text-lg text-white">Total Node:</p>
+            <p className="text-lg text-white">Total Nodes:</p>
             <p className="text-lg text-white">
               Current Tree: {currentTree + 1} / {countTree}
             </p>
