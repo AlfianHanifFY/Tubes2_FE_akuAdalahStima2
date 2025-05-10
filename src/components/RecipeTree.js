@@ -35,6 +35,23 @@ export const convertToTree = (data) => {
   return buildNode(data);
 };
 
+const getNodeColor = (name) => {
+  switch (name) {
+    case "Fire":
+      return "#FFB3B3"; // Pastel Merah
+    case "Air":
+      return "#B3E6B3"; // Pastel Hijau
+    case "Water":
+      return "#99CCFF"; // Pastel Biru
+    case "Earth":
+      return "#D2B48C"; // Pastel Cokelat
+    case "Time":
+      return "#FFEB99"; // Pastel Kuning
+    default:
+      return "#FFFFFF"; // Warna default (Putih)
+  }
+};
+
 const renderCustomNode = ({ nodeDatum }) => (
   <g style={nodeStyles}>
     <rect
@@ -42,7 +59,7 @@ const renderCustomNode = ({ nodeDatum }) => (
       height="80" // Ukuran node yang lebih kecil
       x="-60" // Menggeser posisi node
       y="-40" // Menggeser posisi node
-      fill="#ffffff" // Warna putih
+      fill={getNodeColor(nodeDatum.name)} // Menggunakan warna berdasarkan nama node
       rx="10" // Membulatkan sudut
     />
     <text
