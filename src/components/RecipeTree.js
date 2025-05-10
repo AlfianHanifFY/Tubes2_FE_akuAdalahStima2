@@ -72,7 +72,7 @@ const RecipeTree = ({ data }) => {
         pathFunc="straight"
         zoomable={true} // Aktifkan zoom untuk memudahkan melihat tree
         draggable={true}
-        translate={{ x: 200, y: 40 }} // Posisi tree lebih terpusat
+        translate={{ x: 600, y: 40 }} // Posisi tree lebih terpusat
         scaleExtent={{ min: 0.4, max: 1 }} // Zoom out lebih jauh
         separation={{
           siblings: 1.5, // Jarak antar node pada level yang sama lebih rapat
