@@ -116,8 +116,8 @@ const Home = () => {
       {/* Sidebar (1/6 lebar layar) */}
       <aside className="w-1/5 bg-black bg-opacity-90 p-4 ">
         <div className="m-1">
-          <h2 className="text-5xl font-bold my-2 text-white">C A R I -</h2>
-          <h2 className="text-5xl font-bold my-2 text-white">R E S E P</h2>
+          <h2 className="text-5xl font-bold my-2 text-green-500">C A R I -</h2>
+          <h2 className="text-5xl font-bold my-2 text-green-500">R E S E P</h2>
 
           <div className="mb-4 ">
             <label
