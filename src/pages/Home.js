@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import Tree from "../components/RecipeTree";
 import { convertToTree } from "../components/RecipeTree";
@@ -7,26 +7,9 @@ const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [treeData, setTreeData] = useState(null);
   const [integerInput, setIntegerInput] = useState("");
-  const [methodType, setMethodType] = useState(""); // New state for method type
-
-  const handleTestClick = async () => {
-    try {
-      const res = await fetch(
-        `http://localhost:8080/TestTree?element=${encodeURIComponent(
-          searchTerm
-        )}`
-      );
-      if (!res.ok) throw new Error("Request failed");
-      console.debug("Fetch status:", res.status);
-
-      const data = await res.json();
-      const tree = convertToTree(data);
-      console.debug("Converted tree data:", tree); // <-- Debug log
-      setTreeData(tree);
-    } catch (err) {
-      console.error("Error fetching tree data:", err);
-    }
-  };
+  const [methodType, setMethodType] = useState("");
+  const [countTree, setCountTree] = useState("");
+  const [currentTree, setCurrentTree] = useState(0);
 
   const handleScrap = async () => {
     alert("data scrapped");
@@ -46,24 +29,17 @@ const Home = () => {
     }
   };
 
+  const handleTermChange = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+  };
+
   // Set method type to "bfs" when BFS button is clicked
-  const handleBFSClick = () => {
-    setMethodType("bfs");
-  };
-
-  // Set method type to "dfs" when DFS button is clicked
-  const handleDFSClick = () => {
-    setMethodType("dfs");
-  };
-
-  // Handle MultipleRecipe button click
-const handleMultipleRecipeClick = async () => {
-    const endpoint =
-      methodType === "bfs" ? "MultipleRecipeBFS" : "MultipleRecipe";
-
+  const handleBFSClick = async () => {
+    setMethodType("BFS");
     try {
       const res = await fetch(
-        `http://localhost:8080/${endpoint}?element=${encodeURIComponent(
+        `http://localhost:8080/BFS?element=${encodeURIComponent(
           searchTerm
         )}&count=${encodeURIComponent(integerInput)}`
       );
@@ -71,36 +47,92 @@ const handleMultipleRecipeClick = async () => {
       console.debug(`Fetch status (${methodType.toUpperCase()}):`, res.status);
 
       const data = await res.json();
+      setCountTree(data.length);
+
+      const tree = convertToTree(data[currentTree]);
+      console.debug("Converted tree data:", tree); // <-- Debug log
+      setTreeData(tree);
+    } catch (err) {
+      console.error("Error fetching tree data:", err);
+    }
+  };
+
+  // Set method type to "dfs" when DFS button is clicked
+  const handleDFSClick = async () => {
+    setMethodType("DFS");
+    try {
+      const res = await fetch(
+        `http://localhost:8080/DFS?element=${encodeURIComponent(
+          searchTerm
+        )}&count=${encodeURIComponent(integerInput)}`
+      );
+      if (!res.ok) throw new Error("Request failed");
+      console.debug("Fetch status:", res.status);
+
+      const data = await res.json();
+      console.debug("Raw response data:", data);
+      setCountTree(data.length);
+
       const tree = convertToTree(data[0]);
       console.debug(`Converted tree data (${methodType.toUpperCase()}):`, tree);
       setTreeData(tree);
     } catch (err) {
-      console.error(`Error fetching tree data (${methodType.toUpperCase()}):`, err);
+      console.error(
+        `Error fetching tree data (${methodType.toUpperCase()}):`,
+        err
+      );
     }
   };
 
-  // Handle ShortestPath button click
-  const handleShortestPathClick = () => {
-    alert("Shortest Path clicked");
+  const handleRightArrow = () => {
+    setCurrentTree((prev) => (prev + 1) % countTree);
   };
+
+  const handleLeftArrow = () => {
+    setCurrentTree((prev) => (prev - 1 + countTree) % countTree);
+  };
+
+  useEffect(() => {
+    if (methodType && countTree > 0) {
+      fetch(
+        `http://localhost:8080/${methodType}?element=${encodeURIComponent(
+          searchTerm
+        )}&count=${encodeURIComponent(integerInput)}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          const tree = convertToTree(data[currentTree]);
+          setTreeData(tree);
+        })
+        .catch((err) =>
+          console.error("Error updating tree on navigation:", err)
+        );
+    }
+  }, [currentTree]);
 
   return (
     <div className="flex min-h-screen font-sans">
       {/* Sidebar (1/6 lebar layar) */}
-      <aside className="w-1/6 bg-black bg-opacity-90 p-4 ">
-        <div className="m-3">
-          <h2 className="text-5xl font-bold my-8 text-white">
-            C A R I - R E S E P
-          </h2>
+      <aside className="w-1/5 bg-black bg-opacity-90 p-4 ">
+        <div className="m-1">
+          <h2 className="text-5xl font-bold my-2 text-white">C A R I -</h2>
+          <h2 className="text-5xl font-bold my-2 text-white">R E S E P</h2>
 
           <div className="mb-4 ">
             <label
               htmlFor="integerInput"
-              className="block mb-2 text-lg text-white"
+              className="block mt-6 mb-2 text-lg text-white"
             >
               Element :
             </label>
-            <SearchBar onChange={setSearchTerm} />
+            <input
+              id="elementInput"
+              type="text"
+              value={searchTerm}
+              onChange={handleTermChange}
+              className="w-full border rounded-lg p-2 text-lg"
+              placeholder="Search Element"
+            />
           </div>
 
           <div className="mb-4">
@@ -121,54 +153,63 @@ const handleMultipleRecipeClick = async () => {
           </div>
 
           <div className="space-y-3 mb-4">
+            <label
+              htmlFor="integerInput"
+              className="block mb-2 text-lg text-white"
+            >
+              Search Method:
+            </label>
             <button
               type="button"
               onClick={handleBFSClick}
-              className="w-full text-lg px-4 py-2 rounded-xl shadow bg-blue-600 text-white hover:bg-blue-700 transition"
+              className="w-full text-lg px-4 py-2 rounded-md shadow bg-zinc-800  text-white hover:bg-green-600 transition"
             >
-              BFS
+              <span className="text-white text-xl">BFS</span>
             </button>
             <button
               type="button"
               onClick={handleDFSClick}
-              className="w-full text-lg px-4 py-2 rounded-xl shadow bg-blue-600 text-white hover:bg-blue-700 transition"
+              className="w-full text-lg px-4 py-2 rounded-md shadow bg-zinc-800  text-white hover:bg-green-600 transition"
             >
-              DFS
+              <span className="text-white text-xl">DFS</span>
             </button>
-            <button
+            {/* <button
               type="button"
               onClick={handleScrap}
-              className="w-full text-lg px-4 py-2 rounded-xl shadow bg-green-600 text-white hover:bg-green-700 transition"
+              className="w-full text-lg px-4 py-2 rounded-xl shadow bg-red-600 text-white hover:bg-red-700 transition"
             >
               Scrap
-            </button>
-            <button
-              type="button"
-              onClick={handleTestClick}
-              className="w-full text-lg px-4 py-2 rounded-xl shadow bg-green-600 text-white hover:bg-green-700 transition"
-            >
-              Test
-            </button>
-            <button
-              className="w-full text-left hover:bg-zinc-800 p-2 rounded flex items-center"
-              onclick="uploadFile('humming-audio')"
-            >
-              <span className="text-white text-3xl">test</span>
-            </button>
-          </div>
-
-          <div className="space-x-4 mb-6">
-            <button
-              type="button"
-              onClick={handleMultipleRecipeClick}
-              className="text-lg px-6 py-3 rounded-2xl shadow-md bg-yellow-600 text-white hover:bg-yellow-700 transition duration-200"
-            >
-              Multiple Recipe
-            </button>
+            </button> */}
           </div>
 
           <div className="mb-4">
-            <p className="text-lg">Current method: {methodType || "None"}</p>
+            <p className="text-lg text-white">
+              Current Method: {methodType || " - "}
+            </p>
+            <p className="text-lg text-white">Time Execution:</p>
+            <p className="text-lg text-white">
+              Tree Count: {countTree || " - "}
+            </p>
+            <p className="text-lg text-white">Total Node:</p>
+            <p className="text-lg text-white">
+              Current Tree: {currentTree + 1}{" "}
+            </p>
+          </div>
+          <div className="flex row-auto gap-1">
+            <button
+              type="button"
+              onClick={handleLeftArrow}
+              className="w-full text-lg px-4 py-2 rounded-md shadow bg-zinc-800  text-white hover:bg-orange-600 transition"
+            >
+              <span className="text-white text-xl">←</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleRightArrow}
+              className="w-full text-lg px-4 py-2 rounded-md shadow bg-zinc-800  text-white hover:bg-orange-600 transition"
+            >
+              <span className="text-white text-xl">→</span>
+            </button>
           </div>
         </div>
       </aside>
