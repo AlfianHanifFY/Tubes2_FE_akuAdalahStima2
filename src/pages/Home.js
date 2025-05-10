@@ -193,7 +193,7 @@ const Home = () => {
             </p>
             <p className="text-lg text-white">Total Node:</p>
             <p className="text-lg text-white">
-              Current Tree: {currentTree + 1}{" "}
+              Current Tree: {currentTree + 1} / {countTree}
             </p>
           </div>
           <div className="flex row-auto gap-1">
