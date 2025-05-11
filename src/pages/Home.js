@@ -214,10 +214,10 @@ const Home = () => {
               Total Visited Nodes: {infoTree?.nodes_visited || "-"}
             </p>
             <p className="text-lg text-white">
-              Tree Count: {countTree || " - "}
+              Recipe Count: {countTree || " - "}
             </p>
             <p className="text-lg text-white">
-              Current Tree: {currentTree + 1} / {countTree}
+              Current Recipe: {currentTree + 1} / {countTree}
             </p>
           </div>
           <div className="flex row-auto gap-1">
