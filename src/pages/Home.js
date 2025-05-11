@@ -11,6 +11,7 @@ const Home = () => {
   const [methodType, setMethodType] = useState("");
   const [countTree, setCountTree] = useState("");
   const [currentTree, setCurrentTree] = useState(0);
+  const [infoTree, setInfoTree] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,6 +54,7 @@ const Home = () => {
 
       const data = await res.json();
       setCountTree(data.length);
+
       setFullTreeData(data);
 
       const tree = convertToTree(data[0]);
@@ -73,23 +75,25 @@ const Home = () => {
         )}&count=${encodeURIComponent(integerInput)}`
       );
       if (!res.ok) throw new Error("Request failed");
-      console.debug("Fetch status:", res.status);
 
       const data = await res.json();
       console.debug("Raw response data:", data);
-      setCountTree(data.length);
-      setFullTreeData(data);
 
-      const tree = convertToTree(data[0]);
-      console.debug("Converted tree data:", tree); // <-- Debug log
-      setTreeData(tree);
+      const info = data[0];
+      const trees = data[1];
+
+      setInfoTree(info);
+      setFullTreeData(trees);
+      setCountTree(trees.length);
+      setCurrentTree(0); // reset ke tree pertama
+      setTreeData(convertToTree(trees[0])); // tampilkan tree pertama langsung
     } catch (err) {
       console.error("Error fetching tree data:", err);
     }
   };
 
   const handleRightArrow = () => {
-    setCurrentTree((prev) => (prev + 1) % countTree);
+    setCurrentTree((prev) => (prev + 1 + countTree) % countTree);
   };
 
   const handleLeftArrow = () => {
@@ -97,15 +101,15 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (methodType && countTree > 0) {
+    if (methodType && countTree > 0 && fullTreeData.length > 0) {
       try {
         const tree = convertToTree(fullTreeData[currentTree]);
         setTreeData(tree);
-      } catch (error) {
-        console.error("Error fetching tree data:", err);
+      } catch (err) {
+        console.error("Error converting tree:", err);
       }
     }
-  }, [currentTree]);
+  }, [currentTree, fullTreeData]);
 
   return (
     <div className="flex min-h-screen font-sans">
@@ -183,11 +187,15 @@ const Home = () => {
             <p className="text-lg text-white">
               Current Method: {methodType || " - "}
             </p>
-            <p className="text-lg text-white">Execution Time:</p>
+            <p className="text-lg text-white">
+              Execution Time: {infoTree?.duration_human || "-"}
+            </p>
+            <p className="text-lg text-white">
+              Total Visited Nodes: {infoTree?.nodes_visited || "-"}
+            </p>
             <p className="text-lg text-white">
               Tree Count: {countTree || " - "}
             </p>
-            <p className="text-lg text-white">Total Nodes:</p>
             <p className="text-lg text-white">
               Current Tree: {currentTree + 1} / {countTree}
             </p>

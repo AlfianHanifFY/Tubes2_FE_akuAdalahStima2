@@ -36,16 +36,17 @@ export const convertToTree = (data) => {
 };
 
 const getNodeColor = (name) => {
-  switch (name) {
-    case "Fire":
+  const normalized = name.trim().toLowerCase();
+  switch (normalized) {
+    case "fire":
       return "#FFB3B3"; // Pastel Merah
-    case "Air":
+    case "air":
       return "#B3E6B3"; // Pastel Hijau
-    case "Water":
+    case "water":
       return "#99CCFF"; // Pastel Biru
-    case "Earth":
+    case "earth":
       return "#D2B48C"; // Pastel Cokelat
-    case "Time":
+    case "time":
       return "#FFEB99"; // Pastel Kuning
     default:
       return "#FFFFFF"; // Warna default (Putih)
