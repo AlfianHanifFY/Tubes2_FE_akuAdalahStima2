@@ -82,6 +82,10 @@ const Home = () => {
       const info = data[0];
       const trees = data[1];
 
+      if (!trees) {
+        throw { searchTerm } + " not found";
+      }
+
       setInfoTree(info);
       setFullTreeData(trees);
       setCountTree(trees.length);
