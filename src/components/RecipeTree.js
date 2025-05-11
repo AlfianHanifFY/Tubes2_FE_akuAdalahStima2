@@ -87,7 +87,7 @@ const RecipeTree = ({ data }) => {
         data={data}
         orientation="vertical"
         renderCustomNodeElement={renderCustomNode}
-        pathFunc="straight"
+        pathFunc="elbow"
         zoomable={true} // Aktifkan zoom untuk memudahkan melihat tree
         draggable={true}
         translate={{ x: 600, y: 40 }} // Posisi tree lebih terpusat
