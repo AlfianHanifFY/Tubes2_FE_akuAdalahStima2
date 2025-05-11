@@ -83,7 +83,7 @@ const Home = () => {
       const trees = data[1];
 
       if (!trees) {
-        throw { searchTerm } + " not found";
+        throw searchTerm + " not found";
       }
 
       setInfoTree(info);
