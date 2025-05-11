@@ -62,13 +62,19 @@ const Home = () => {
       console.debug("Fetch status:", res.status);
 
       const data = await res.json();
-      setCountTree(data.length);
+      const info = data[0];
+      const trees = data[1];
 
-      setFullTreeData(data);
+      if (!trees) {
+        clearData();
+        throw searchTerm + " not found";
+      }
 
-      const tree = convertToTree(data[0]);
-      console.debug("Converted tree data:", tree); // <-- Debug log
-      setTreeData(tree);
+      setInfoTree(info);
+      setFullTreeData(trees);
+      setCountTree(trees.length);
+      setCurrentTree(0); // reset ke tree pertama
+      setTreeData(convertToTree(trees[0])); // tampilkan tree pertama langsung
     } catch (err) {
       console.error("Error fetching tree data:", err);
     }
