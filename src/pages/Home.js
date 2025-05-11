@@ -13,6 +13,15 @@ const Home = () => {
   const [currentTree, setCurrentTree] = useState(0);
   const [infoTree, setInfoTree] = useState("");
 
+  const clearData = () => {
+    setCountTree("");
+    setTreeData(null);
+    setFullTreeData("");
+    setCountTree("");
+    setInfoTree("");
+    setCurrentTree(0);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       alert("data scrapped");
@@ -83,6 +92,7 @@ const Home = () => {
       const trees = data[1];
 
       if (!trees) {
+        clearData();
         throw searchTerm + " not found";
       }
 
