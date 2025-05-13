@@ -49,7 +49,7 @@ const getNodeColor = (name) => {
   }
 };
 
-const renderCustomNode = ({ nodeDatum }) => (
+const custom = ({ nodeDatum }) => (
   <g style={nodeStyles}>
     <rect
       width="120"
@@ -81,7 +81,7 @@ const RecipeTree = ({ data }) => {
       <Tree
         data={data}
         orientation="vertical"
-        renderCustomNodeElement={renderCustomNode}
+        renderCustomNodeElement={custom}
         pathFunc="elbow"
         zoomable={true}
         draggable={true}
