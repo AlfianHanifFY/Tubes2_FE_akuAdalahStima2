@@ -1,4 +1,12 @@
-# Tubes2_FE_akuAdalahStima2
+# <h1 align="center">Tugas Besar 2 IF2211 Strategi Algoritma</h1>
+
+<h2 align="center">Semester II tahun 2024/2025</h2>
+<h3 align="center">Pencarian Resep Little Alchemy 2 Dengan BFS dan DFS</h3>
+<h3 align="center">akuAdalahStima2</h3>
+
+<p align="center">
+  <img src="docs/Main.png" alt="Main" width="700">
+</p>
 
 Repositori ini berisi program front-end tugas besar 2 akuAdalahStima2. Program ini bertugas interface program agar dapat digunakan secara interaktif melalui laman web.
 
@@ -55,7 +63,7 @@ Gunakan flag `-d` untuk menjalankan dalam mode _detached_:
 docker compose up -d
 ```
 
-Program akan berjalan pada `localhost:3000`. Kunjungi laman tersebut untuk mengakses aplikasi dan pastikan program back-end sudah bekerja.
+Program akan berjalan pada `localhost:3000`. Kunjungi laman tersebut untuk mengakses aplikasi dan pastikan program back-end sudah bekerja. https://github.com/AlfianHanifFY/Tubes2_BE_akuAdalahStima2 (link BE)
 
 ## Menghentikan Aplikasi
 
