@@ -7,14 +7,9 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* Navbar */}
-
-        {/* Routing Halaman */}
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
-
-        {/* Footer */}
       </div>
     </Router>
   );

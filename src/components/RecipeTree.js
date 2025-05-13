@@ -3,27 +3,24 @@ import Tree from "react-d3-tree";
 
 const containerStyles = {
   width: "100%",
-  height: "100vh", // Full viewport height
+  height: "100vh",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
 };
 
-const nodeStyles = {
-  // Tidak ada transformasi vertikal lagi
-};
+const nodeStyles = {};
 
 export const convertToTree = (data) => {
   const buildNode = (node) => {
     const treeNode = {
-      name: node.Root.root, // Nama node utama
-      children: [], // Siapkan children
+      name: node.Root.root,
+      children: [],
     };
 
-    // Cek dan bangun children dari data
     if (node.Children) {
       node.Children.forEach((child) => {
-        const childNode = buildNode(child); // Rekursi untuk children
+        const childNode = buildNode(child);
         treeNode.children.push(childNode);
       });
     }
@@ -31,7 +28,6 @@ export const convertToTree = (data) => {
     return treeNode;
   };
 
-  // Mulai membangun tree dari root
   return buildNode(data);
 };
 
@@ -39,29 +35,29 @@ const getNodeColor = (name) => {
   const normalized = name.trim().toLowerCase();
   switch (normalized) {
     case "fire":
-      return "#FFB3B3"; // Pastel Merah
+      return "#FFB3B3";
     case "air":
-      return "#B3E6B3"; // Pastel Hijau
+      return "#B3E6B3";
     case "water":
-      return "#99CCFF"; // Pastel Biru
+      return "#99CCFF";
     case "earth":
-      return "#D2B48C"; // Pastel Cokelat
+      return "#D2B48C";
     case "time":
-      return "#FFEB99"; // Pastel Kuning
+      return "#FFEB99";
     default:
-      return "#FFFFFF"; // Warna default (Putih)
+      return "#FFFFFF";
   }
 };
 
 const renderCustomNode = ({ nodeDatum }) => (
   <g style={nodeStyles}>
     <rect
-      width="120" // Ukuran node yang lebih kecil
-      height="80" // Ukuran node yang lebih kecil
-      x="-60" // Menggeser posisi node
-      y="-40" // Menggeser posisi node
-      fill={getNodeColor(nodeDatum.name)} // Menggunakan warna berdasarkan nama node
-      rx="10" // Membulatkan sudut
+      width="120"
+      height="80"
+      x="-60"
+      y="-40"
+      fill={getNodeColor(nodeDatum.name)}
+      rx="10"
     />
     <text
       fill="black"
@@ -69,14 +65,13 @@ const renderCustomNode = ({ nodeDatum }) => (
       x="0"
       y="10"
       textAnchor="middle"
-      fontSize="15" // Ukuran font lebih kecil
+      fontSize="15"
     >
       {nodeDatum.name}
     </text>
   </g>
 );
 
-// Komponen RecipeTree sekarang menerima props `data`
 const RecipeTree = ({ data }) => {
   return (
     <div
@@ -88,15 +83,15 @@ const RecipeTree = ({ data }) => {
         orientation="vertical"
         renderCustomNodeElement={renderCustomNode}
         pathFunc="elbow"
-        zoomable={true} // Aktifkan zoom untuk memudahkan melihat tree
+        zoomable={true}
         draggable={true}
-        translate={{ x: 600, y: 40 }} // Posisi tree lebih terpusat
-        scaleExtent={{ min: 0.4, max: 1 }} // Zoom out lebih jauh
+        translate={{ x: 600, y: 40 }}
+        scaleExtent={{ min: 0.4, max: 1 }}
         separation={{
-          siblings: 1.5, // Jarak antar node pada level yang sama lebih rapat
-          nonSiblings: 1.5, // Jarak antar node pada level berbeda lebih rapat
+          siblings: 1.5,
+          nonSiblings: 1.5,
         }}
-        pathClassFunc={() => "custom-path"} // Gunakan kelas CSS
+        pathClassFunc={() => "custom-path"}
       />
     </div>
   );

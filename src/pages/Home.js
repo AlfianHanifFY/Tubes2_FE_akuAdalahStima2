@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import SearchBar from "../components/SearchBar";
 import Tree from "../components/RecipeTree";
 import { convertToTree } from "../components/RecipeTree";
 
@@ -49,7 +48,6 @@ const Home = () => {
     setSearchTerm(value);
   };
 
-  // Set method type to "bfs" when BFS button is clicked
   const handleBFSClick = async () => {
     setMethodType("BFS");
     try {
@@ -73,8 +71,8 @@ const Home = () => {
       setInfoTree(info);
       setFullTreeData(trees);
       setCountTree(trees.length);
-      setCurrentTree(0); // reset ke tree pertama
-      setTreeData(convertToTree(trees[0])); // tampilkan tree pertama langsung
+      setCurrentTree(0);
+      setTreeData(convertToTree(trees[0]));
     } catch (err) {
       console.error("Error fetching tree data:", err);
     }
@@ -105,8 +103,8 @@ const Home = () => {
       setInfoTree(info);
       setFullTreeData(trees);
       setCountTree(trees.length);
-      setCurrentTree(0); // reset ke tree pertama
-      setTreeData(convertToTree(trees[0])); // tampilkan tree pertama langsung
+      setCurrentTree(0);
+      setTreeData(convertToTree(trees[0]));
     } catch (err) {
       console.error("Error fetching tree data:", err);
     }
@@ -194,13 +192,6 @@ const Home = () => {
             >
               <span className="text-white text-xl">DFS</span>
             </button>
-            {/* <button
-              type="button"
-              onClick={handleScrap}
-              className="w-full text-lg px-4 py-2 rounded-xl shadow bg-red-600 text-white hover:bg-red-700 transition"
-            >
-              Scrap
-            </button> */}
           </div>
 
           <div className="mb-4">
