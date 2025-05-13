@@ -5,7 +5,7 @@
 <h3 align="center">akuAdalahStima2</h3>
 
 <p align="center">
-  <img src="docs/Main.png" alt="Main" width="700">
+  <img src="doc/main.png" alt="Main" width="700">
 </p>
 
 Repositori ini berisi program front-end tugas besar 2 akuAdalahStima2. Program ini bertugas interface program agar dapat digunakan secara interaktif melalui laman web.
